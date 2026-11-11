@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Login & Register | Thread & Craft Co.</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .auth-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      background: radial-gradient(circle at top right, #f1f5f9, #e2e8f0);
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 16px;
+      text-align: center;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: #f8fafc;
+      border: none;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+    .auth-tab.active {
+      background: white;
+      color: var(--primary);
+      border-bottom: 2px solid var(--accent);
+    }
+    .auth-body {
+      padding: 28px;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    .error-text {
+      color: var(--danger);
+      font-size: 0.78rem;
+      margin-top: 5px;
+      display: none;
+      font-weight: 500;
+    }
+    .success-text {
+      color: var(--success);
+      font-size: 0.78rem;
+      margin-top: 5px;
+      display: none;
+      font-weight: 500;
+    }
+    .password-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    .back-link {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.88rem;
+    }
+    .back-link a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="auth-page">
+
+  <div style="margin-bottom: 24px; text-align: center;">
+    <a href="index.html" class="logo" style="justify-content: center;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"/>
+      </svg>
+      Thread<span>Craft</span>
+    </a>
+    <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 6px;">Customer Account & Orders Portal</p>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Create Account</button>
+    </div>
+
+    <!-- Sign In Form -->
+    <div class="auth-body" id="login-container">
+      <form id="client-login-form" novalidate onsubmit="handleClientLogin(event)">
+        <div class="form-group">
+          <label for="login-email">Email Address</label>
+          <input type="email" id="login-email" class="form-control" placeholder="your.name@example.com" autocomplete="email">
+          <div class="error-text" id="login-email-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" class="form-control" placeholder="Enter your password" autocomplete="current-password">
+          <div class="error-text" id="login-password-error"></div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.85rem;">
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-muted);">
+            <input type="checkbox" id="login-remember" checked> Remember me
+          </label>
+          <a href="#" onclick="alert('Demo: Password reset link has been dispatched to your email.'); return false;" style="color: var(--accent); text-decoration: none;">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem;">
+          Sign In to Shop
+        </button>
+      </form>
+    </div>
+
+    <!-- Register Form -->
+    <div class="auth-body" id="register-container" style="display: none;">
+      <form id="client-register-form" novalidate onsubmit="handleClientRegister(event)">
+        <div class="form-group">
+          <label for="reg-name">Full Name</label>
+          <input type="text" id="reg-name" class="form-control" placeholder="John Doe">
+          <div class="error-text" id="reg-name-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email">Email Address</label>
+          <input type="email" id="reg-email" class="form-control" placeholder="john@example.com">
+          <div class="error-text" id="reg-email-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password">Create Password</label>
+          <input type="password" id="reg-password" class="form-control" placeholder="At least 8 chars with 1 cap, 1 num, 1 symbol">
+          <div class="password-hint">Requires: 8+ chars, 1 uppercase, 1 lowercase, 1 number & 1 symbol (!@#$).</div>
+          <div class="error-text" id="reg-password-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-confirm-password">Confirm Password</label>
+          <input type="password" id="reg-confirm-password" class="form-control" placeholder="Re-enter password">
+          <div class="error-text" id="reg-confirm-error"></div>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem;">
+          Create Customer Account
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="back-link">
+    <p>← <a href="index.html">Return to T-Shirt Store</a> | <a href="../admin/login.html">Switch to Admin Portal</a></p>
+  </div>
+
+  <!-- Client Auth Logic with Validations -->
+  <script>
+    // Tab switcher
+    function switchTab(tab) {
+      const loginTab = document.getElementById("tab-login");
+      const regTab = document.getElementById("tab-register");
+      const loginBox = document.getElementById("login-container");
+      const regBox = document.getElementById("register-container");
+
+      if (tab === "login") {
+        loginTab.classList.add("active");
+        regTab.classList.remove("active");
+        loginBox.style.display = "block";
+        regBox.style.display = "none";
+      } else {
+        regTab.classList.add("active");
+        loginTab.classList.remove("active");
+        regBox.style.display = "block";
+        loginBox.style.display = "none";
+      }
+    }
+
+    // JAVASCRIPT VALIDATION 1: Email Format Regex Check
+    function validateEmail(email) {
+      if (!email || email.trim() === "") {
+        return { isValid: false, message: "Email is required." };
+      }
+      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
+      if (!emailRegex.test(email.trim())) {
+        return { isValid: false, message: "Please provide a valid email format (e.g. user@domain.com)." };
+      }
+      return { isValid: true };
+    }
+
+    // JAVASCRIPT VALIDATION 2: Password Strength Check
+    function validatePassword(password) {
+      if (!password || password.length < 8) {
+        return { isValid: false, message: "Password must be at least 8 characters long." };
+      }
+      if (!/[A-Z]/.test(password)) {
+        return { isValid: false, message: "Must include at least 1 uppercase letter (A-Z)." };
+      }
+      if (!/[a-z]/.test(password)) {
+        return { isValid: false, message: "Must include at least 1 lowercase letter (a-z)." };
+      }
+      if (!/[0-9]/.test(password)) {
+        return { isValid: false, message: "Must include at least 1 number (0-9)." };
+      }
+      if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+        return { isValid: false, message: "Must include at least 1 special character (!@#$%^&*)." };
+      }
+      return { isValid: true };
+    }
+
+    // Helper to display error message under input
+    function displayError(elemId, message) {
+      const el = document.getElementById(elemId);
+      if (el) {
+        if (message) {
+          el.textContent = message;
+          el.style.display = "block";
+        } else {
+          el.textContent = "";
+          el.style.display = "none";
+        }
+      }
+    }
+
+    // Handle Login submission
+    function handleClientLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value;
+      const pass = document.getElementById("login-password").value;
+
+      let valid = true;
+
+      // Validation 1: Email
+      const emailCheck = validateEmail(email);
+      if (!emailCheck.isValid) {
+        displayError("login-email-error", emailCheck.message);
+        valid = false;
+      } else {
+        displayError("login-email-error", null);
+      }
+
+      // Password empty check
+      if (!pass || pass.trim() === "") {
+        displayError("login-password-error", "Password is required.");
+        valid = false;
+      } else {
+        displayError("login-password-error", null);
+      }
+
+      if (!valid) return;
+
+      // Authenticate against stored client or allow demo
+      const savedUser = localStorage.getItem("tshirt_client_user");
+      let userName = "Valued Customer";
+      if (savedUser) {
+        try {
+          const userObj = JSON.parse(savedUser);
+          if (userObj.email === email) {
+            userName = userObj.name;
+          }
+        } catch (e) {}
+      }
+
+      localStorage.setItem("tshirt_client_user", JSON.stringify({
+        email: email,
+        name: userName,
+        loggedInAt: new Date().toISOString()
+      }));
+
+      alert(`Welcome back, ${userName}! Logging you into the store...`);
+      window.location.href = "index.html";
+    }
+
+    // Handle Register submission
+    function handleClientRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById("reg-name").value.trim();
+      const email = document.getElementById("reg-email").value.trim();
+      const pass = document.getElementById("reg-password").value;
+      const confirmPass = document.getElementById("reg-confirm-password").value;
+
+      let valid = true;
+
+      // Name check
+      if (name.length < 2) {
+        displayError("reg-name-error", "Full name must be at least 2 characters.");
+        valid = false;
+      } else {
+        displayError("reg-name-error", null);
+      }
+
+      // Validation 1: Email
+      const emailCheck = validateEmail(email);
+      if (!emailCheck.isValid) {
+        displayError("reg-email-error", emailCheck.message);
+        valid = false;
+      } else {
+        displayError("reg-email-error", null);
+      }
+
+      // Validation 2: Password strength
+      const passCheck = validatePassword(pass);
+      if (!passCheck.isValid) {
+        displayError("reg-password-error", passCheck.message);
+        valid = false;
+      } else {
+        displayError("reg-password-error", null);
+      }
+
+      // Confirm match check
+      if (pass !== confirmPass) {
+        displayError("reg-confirm-error", "Passwords do not match.");
+        valid = false;
+      } else {
+        displayError("reg-confirm-error", null);
+      }
+
+      if (!valid) return;
+
+      // Save user profile
+      localStorage.setItem("tshirt_client_user", JSON.stringify({
+        email: email,
+        name: name,
+        registeredAt: new Date().toISOString()
+      }));
+
+      alert(`Account created successfully for ${name}! Redirecting you to the shop...`);
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

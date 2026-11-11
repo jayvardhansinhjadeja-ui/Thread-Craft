@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Thread & Craft Co.</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- Left Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"/>
+      </svg>
+      <h2>Thread<span>Craft</span></h2>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="index.html" class="active">📊 Catalog & Inventory</a></li>
+      <li><a href="#" onclick="alert('Demo: Orders management dashboard with 42 pending shipments.'); return false;">📦 Orders (42)</a></li>
+      <li><a href="#" onclick="alert('Demo: Active discounts include SAVE20 (20% off), TEES10 (10% off), and SUMMER25.'); return false;">🏷️ Promo Discounts</a></li>
+      <li><a href="../client/index.html" target="_blank">🌐 Live Client Store ↗</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div class="admin-profile">
+        <div class="admin-avatar">A</div>
+        <div class="admin-info">
+          <h4>Store Admin</h4>
+          <p>admin@tees.com</p>
+        </div>
+      </div>
+      <button onclick="handleAdminLogout()" class="btn-secondary" style="width: 100%; margin-top: 14px; justify-content: center; background: #334155; color: white; border: none;">
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Action Bar -->
+    <header class="top-bar">
+      <div>
+        <h1>T-Shirt Inventory & Catalog Control</h1>
+      </div>
+
+      <div class="top-bar-actions">
+        <a href="../client/index.html" target="_blank" class="btn-secondary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Preview Store
+        </a>
+        <button class="btn-admin-primary" onclick="openAddProductModal()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add New T-Shirt
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Dashboard Panels -->
+    <main class="dashboard-content">
+      
+      <!-- Metrics Overview Cards -->
+      <section class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-data">
+            <h3>Total Products</h3>
+            <div class="number" id="metric-total">7</div>
+          </div>
+          <div class="metric-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <h3>In-Stock Items</h3>
+            <div class="number" id="metric-in-stock" style="color: var(--success);">7</div>
+          </div>
+          <div class="metric-icon" style="background: #ecfdf5; color: var(--success);">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <h3>Low Stock Alerts</h3>
+            <div class="number" id="metric-low-stock" style="color: var(--warning);">1</div>
+          </div>
+          <div class="metric-icon" style="background: #fffbeb; color: var(--warning);">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <h3>Total Inventory Value</h3>
+            <div class="number" id="metric-value">$8,240.00</div>
+          </div>
+          <div class="metric-icon" style="background: #f5f3ff; color: #8b5cf6;">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- Products Management Panel -->
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>Product Catalog & Inventory</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Manage manufacturing info, prices, discounts, and real-time stock levels.</p>
+          </div>
+
+          <div class="search-box">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="search-input" placeholder="Search t-shirts, fabrics..." onkeyup="filterTable()">
+          </div>
+        </div>
+
+        <!-- Table Listing -->
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Product Details</th>
+                <th>Category</th>
+                <th>Price / Retail</th>
+                <th>Discount</th>
+                <th>Inventory Status</th>
+                <th>Material & Origin Summary</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-table-body">
+              <!-- Rendered dynamically by admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Add / Edit Product Modal -->
+  <div class="admin-modal-overlay" id="product-modal">
+    <div class="admin-modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 id="modal-form-title">Add New T-Shirt Product</h2>
+        <button onclick="closeProductModal()" style="background: none; border: none; font-size: 1.4rem; cursor: pointer;">&times;</button>
+      </div>
+
+      <form id="product-form" novalidate onsubmit="handleProductFormSubmit(event)">
+        
+        <div class="form-group">
+          <label for="field-title">Product Title</label>
+          <input type="text" id="field-title" placeholder="e.g. Supima Slub Crewneck Tee">
+          <div class="field-error" id="error-title"></div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="field-category">Category</label>
+            <select id="field-category">
+              <option value="">-- Choose Category --</option>
+              <option value="Organic">Organic Cotton</option>
+              <option value="Streetwear">Streetwear Boxy</option>
+              <option value="Athletic">Athletic & Bamboo</option>
+              <option value="Casual">Casual Supima</option>
+            </select>
+            <div class="field-error" id="error-category"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="field-stock">Stock Quantity (Units)</label>
+            <input type="number" id="field-stock" placeholder="40" min="0" step="1">
+            <div class="field-error" id="error-stock"></div>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="field-price">Sale Price ($ USD)</label>
+            <input type="number" id="field-price" placeholder="29.99" min="0.01" step="0.01">
+            <div class="field-error" id="error-price"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="field-originalPrice">Original Retail Price ($ USD)</label>
+            <input type="number" id="field-originalPrice" placeholder="39.99" min="0.01" step="0.01">
+            <div class="field-error" id="error-originalPrice"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="field-image">Image URL</label>
+          <input type="url" id="field-image" placeholder="https://images.unsplash.com/...">
+          <div class="field-error" id="error-image"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="field-material">Fabric & Material Specifications (GSM, Composition)</label>
+          <textarea id="field-material" rows="2" placeholder="e.g. 100% GOTS-Certified Organic Combed Cotton (240 GSM heavy jersey knit)."></textarea>
+          <div class="field-error" id="error-material"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="field-manufacture">Manufacturing Process & Ethical Origin</label>
+          <textarea id="field-manufacture" rows="2" placeholder="e.g. Responsibly knit and dyed in a Fair Trade certified facility in Tirupur, India. Pre-shrunk with bio-washing."></textarea>
+          <div class="field-error" id="error-manufacture"></div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="field-fit">Garment Cut & Fit</label>
+            <input type="text" id="field-fit" placeholder="e.g. Modern relaxed boxy fit with dropped shoulders">
+          </div>
+
+          <div class="form-group">
+            <label for="field-care">Care Instructions</label>
+            <input type="text" id="field-care" placeholder="e.g. Machine wash cold inside out, line dry">
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+          <button type="button" class="btn-secondary" onclick="closeProductModal()">Cancel</button>
+          <button type="submit" class="btn-admin-primary">Save Product</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

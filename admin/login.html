@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal Login | Thread & Craft Co.</title>
+  <link rel="stylesheet" href="admin.css">
+  <style>
+    body {
+      background: radial-gradient(circle at 10% 20%, #0f172a 0%, #1e293b 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .admin-login-card {
+      width: 100%;
+      max-width: 420px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+      padding: 36px 32px;
+      color: white;
+    }
+    .admin-login-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .admin-login-header .badge {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .admin-login-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .admin-login-header p {
+      color: #94a3b8;
+      font-size: 0.88rem;
+      margin-top: 4px;
+    }
+    .admin-form-group {
+      margin-bottom: 20px;
+    }
+    .admin-form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+    .admin-form-input {
+      width: 100%;
+      padding: 12px 14px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: white;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .admin-form-input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+    }
+    .admin-error-text {
+      color: #f87171;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      display: none;
+    }
+    .credential-callout {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px dashed #334155;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 20px 0;
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+    .credential-callout strong {
+      color: #e2e8f0;
+    }
+    .quick-fill-btn {
+      background: #334155;
+      color: #e2e8f0;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+    .quick-fill-btn:hover {
+      background: #475569;
+    }
+    .admin-submit-btn {
+      width: 100%;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .admin-submit-btn:hover {
+      background: #2563eb;
+    }
+    .store-link {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.85rem;
+    }
+    .store-link a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-login-card">
+    <div class="admin-login-header">
+      <span class="badge">SECURE CONTROL PANEL</span>
+      <h2>ThreadCraft Admin</h2>
+      <p>Sign in to manage catalog, inventory, and pricing</p>
+    </div>
+
+    <form id="admin-login-form" novalidate onsubmit="handleAdminLogin(event)">
+      <!-- Admin Email Input with validation -->
+      <div class="admin-form-group">
+        <label for="admin-email">Admin Email Address</label>
+        <input type="email" id="admin-email" class="admin-form-input" placeholder="admin@tees.com" autocomplete="email">
+        <div class="admin-error-text" id="admin-email-error"></div>
+      </div>
+
+      <!-- Admin Password Input with validation -->
+      <div class="admin-form-group">
+        <label for="admin-password">Master Password</label>
+        <input type="password" id="admin-password" class="admin-form-input" placeholder="••••••••••••" autocomplete="current-password">
+        <div class="admin-error-text" id="admin-pass-error"></div>
+      </div>
+
+      <!-- Demo Credentials Callout -->
+      <div class="credential-callout">
+        <div>Demo Credentials:</div>
+        <div>Email: <strong>admin@tees.com</strong></div>
+        <div>Password: <strong>Admin@123</strong></div>
+        <button type="button" class="quick-fill-btn" onclick="quickFillCredentials()">⚡ Quick Autofill</button>
+      </div>
+
+      <button type="submit" class="admin-submit-btn">Access Dashboard</button>
+    </form>
+
+    <div class="store-link">
+      <p>← <a href="../client/index.html">Back to Client Store</a> | <a href="../client/login.html">Client Login</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Autofill helper
+    function quickFillCredentials() {
+      document.getElementById("admin-email").value = "admin@tees.com";
+      document.getElementById("admin-password").value = "Admin@123";
+    }
+
+    // Email Regex Validation Function
+    function validateAdminEmail(email) {
+      if (!email || email.trim() === "") {
+        return { isValid: false, message: "Admin email is required." };
+      }
+      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
+      if (!emailRegex.test(email.trim())) {
+        return { isValid: false, message: "Invalid email syntax. Please provide a standard address." };
+      }
+      return { isValid: true };
+    }
+
+    function showAdminError(elemId, msg) {
+      const el = document.getElementById(elemId);
+      if (el) {
+        if (msg) {
+          el.textContent = msg;
+          el.style.display = "block";
+        } else {
+          el.textContent = "";
+          el.style.display = "none";
+        }
+      }
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const emailInput = document.getElementById("admin-email").value;
+      const passInput = document.getElementById("admin-password").value;
+
+      let valid = true;
+
+      // Validate Email format
+      const emailValidation = validateAdminEmail(emailInput);
+      if (!emailValidation.isValid) {
+        showAdminError("admin-email-error", emailValidation.message);
+        valid = false;
+      } else {
+        showAdminError("admin-email-error", null);
+      }
+
+      // Validate Password length
+      if (!passInput || passInput.length < 6) {
+        showAdminError("admin-pass-error", "Password must be at least 6 characters.");
+        valid = false;
+      } else {
+        showAdminError("admin-pass-error", null);
+      }
+
+      if (!valid) return;
+
+      // Check against admin credentials
+      if (emailInput.trim().toLowerCase() === "admin@tees.com" && passInput === "Admin@123") {
+        localStorage.setItem("tshirt_admin_user", JSON.stringify({
+          role: "SuperAdmin",
+          email: emailInput.trim(),
+          loginTime: new Date().toISOString()
+        }));
+        alert("Authentication successful! Redirecting to Admin Dashboard...");
+        window.location.href = "index.html";
+      } else {
+        showAdminError("admin-pass-error", "Invalid credentials. Use admin@tees.com and Admin@123.");
+      }
+    }
+  </script>
+</body>
+</html>
